@@ -222,6 +222,13 @@ class Server {
         httpServer.on('error', function(e) {
             logger.logError("» Port " + this.httpPort + " is already in use, check if the server isn't already running");
         });
+        
+        /* handle int signal */
+        process.on('SIGINT', (code) => {
+            logger.logWarning("Catch SIGINT, saving player progress");
+            saveHandler.saveOpenSessions();
+            process.exit(0);
+        });
     }
 }
 
